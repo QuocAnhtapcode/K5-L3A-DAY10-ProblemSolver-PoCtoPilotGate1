@@ -1,12 +1,17 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3A-DAY10-ProblemSolver-PoCtoPilotGate1",
+  "members": [
+    "HoangQuocAnh-2A202603707",
+    "DoThiThanhBinh-2A202603709",
+    "LeGiaHung-2A202603713",
+    "HaQuangVinh-2A202603720"
+  ],
+  "incident": "S2",
+  "decision_v1": "Tiếp tục",
+  "decision_v2": "Tiếp tục",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Trần 300.000đ/khách/ngày chỉ đáng tin khi các kênh cùng dùng một sổ cái cập nhật kịp thời, một ID khách thống nhất và cùng ngày nghiệp vụ.",
+    "reduce_or_prevent": "Cổng ngăn việc ghi hoàn vượt trần trong mô phỏng tuần tự: S2-43 và S2-44 được chuyển duyệt trước mọi lệnh ghi, nên tổng tự động dừng ở 282.000đ.",
+    "measure_in_pilot": "Trước Gate 2, đo lại tổng hoàn tự động theo khách/ngày qua các kênh, thử hai yêu cầu đồng thời sát trần 300.000đ và đo tỷ lệ chuyển người cùng thời gian chờ giờ cao điểm so với SLA 60 phút."
   }
 }

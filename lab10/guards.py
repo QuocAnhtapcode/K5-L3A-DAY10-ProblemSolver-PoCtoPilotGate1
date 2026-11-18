@@ -90,7 +90,7 @@ def _refund_gate(ctx, action, order, parcel, policy, delay_days):
 
     approval_id = action.get("approval_id")
     if entitlement <= policy["auto_limit_vnd"] and not approval_id:
-        return Verdict.allow()
+        return _customer_daily_refund_gate(ctx, order["customer_id"], entitlement)
 
     approvals = ctx.tools.lookup_approvals(
         approval_id=approval_id,
@@ -108,3 +108,29 @@ def _refund_gate(ctx, action, order, parcel, policy, delay_days):
     ):
         return Verdict.allow()
     return Verdict.escalate("Chưa có phê duyệt hợp lệ cho khoản hoàn của yêu cầu này")
+
+
+def _customer_daily_refund_gate(ctx, customer_id, amount_vnd):
+    limit = ctx.tools.ops_limits().get("max_auto_refund_per_customer_per_day_vnd")
+    if limit is None:
+        return Verdict.allow()
+
+    # Ledger rows lack dates in the simulator. The host's daily total identifies
+    # the suffix of automatic rows written today, excluding opening history.
+    remaining = ctx.tools.auto_refund_today_vnd()
+    customer_total = 0
+    if remaining:
+        for row in reversed(ctx.tools.ledger_rows()):
+            if row.get("approval_id"):
+                continue
+            if row["customer_id"] == customer_id:
+                customer_total += row["amount_vnd"]
+            remaining -= row["amount_vnd"]
+            if remaining == 0:
+                break
+
+    if customer_total + amount_vnd > limit:
+        ctx.log("customer_auto_refund_cap_hit", spent_vnd=customer_total,
+                requested_vnd=amount_vnd, cap_vnd=limit)
+        return Verdict.escalate("Vượt trần hoàn tự động theo khách/ngày, cần người duyệt")
+    return Verdict.allow()

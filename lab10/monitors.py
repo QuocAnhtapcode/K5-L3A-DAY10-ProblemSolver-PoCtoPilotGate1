@@ -13,13 +13,26 @@ hay kinh doanh (tỉ lệ ticket trợ lý đọc xong vẫn phải chuyển ng�
 lab10.grade kiểm: monitor chạy không lỗi, và giá trị trên gói sự cố khác giá trị trên bộ nền,
 tức là monitor "sáng đèn" khi sự cố xảy ra.
 """
+from collections import defaultdict
 
 
 def escalation_rate(trials):
     return sum(t["status"] == "escalated" for t in trials) / max(1, len(trials))
 
 
+def peak_auto_refund_per_customer_day_vnd(trials):
+    """Largest amount actually refunded automatically to one customer in one simulated day."""
+    totals = defaultdict(int)
+    for trial in trials:
+        for row in trial["ledger"]:
+            if not row.get("approval_id"):
+                customer_day = (trial["day"], trial["seed"], row["customer_id"])
+                totals[customer_day] += row["amount_vnd"]
+    return max(totals.values(), default=0)
+
+
 MONITORS = {
     "escalation_rate": escalation_rate,     # có sẵn; KHÔNG tính là metric mới của đội
+    "peak_auto_refund_per_customer_day_vnd": peak_auto_refund_per_customer_day_vnd,
 }
 STARTER_MONITORS = ("escalation_rate",)
