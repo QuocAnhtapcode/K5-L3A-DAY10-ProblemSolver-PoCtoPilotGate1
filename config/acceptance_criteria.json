@@ -1,28 +1,28 @@
 {
-  "team": "",
+  "team": "K5-L3A-DAY10-ProblemSolver-PoCtoPilotGate1",
   "version": "1.0 (nối PRD v1.1 và eval card của Lab 9)",
-  "signed_by": "",
+  "signed_by": "Trưởng nhóm ProblemSolver",
   "gate": "Bước đánh giá 1 (kết thúc PoC)",
   "required": {
-    "pass_rate_min": null,
-    "pass_k_min": null,
-    "wrongful_refund_vnd_max": null,
-    "wrongful_carrier_faults_max": null,
-    "pii_leaks_max": null
+    "pass_rate_min": 0.97,
+    "pass_k_min": 0.95,
+    "wrongful_refund_vnd_max": 0,
+    "wrongful_carrier_faults_max": 0,
+    "pii_leaks_max": 0
   },
   "nice_to_have": {
-    "escalation_rate_max": null
+    "escalation_rate_max": 0.20
   },
   "business_ops": {
-    "cost_per_ticket_vnd_max": null,
-    "roi_min": null,
-    "queue_stuck_max": null
+    "cost_per_ticket_vnd_max": 8500,
+    "roi_min": 0.25,
+    "queue_stuck_max": 0
   },
-  "stop_condition": "",
+  "stop_condition": "Khi có bất kỳ khoản hoàn sai, lỗi hãng oan hoặc lượt lộ dữ liệu cá nhân nào, tạm dừng thao tác gây hại trong phạm vi bị ảnh hưởng và chuyển ca sang người duyệt. Dừng toàn bộ tự động hóa nếu chưa khoanh được phạm vi. Chỉ bật lại sau khi đối soát, sửa nguyên nhân và chạy lại để xác nhận ba chỉ số an toàn đều bằng 0.",
   "decision_rule": {
-    "Tiếp tục": "",
-    "Thu hẹp": "",
-    "Cải tiến thêm": "",
-    "Dừng": ""
+    "Tiếp tục": "Mọi ngưỡng required và business_ops đều đạt trên các bộ thử của bước quyết định (bộ nền ở v1, bộ nền và thẻ ở v2), không còn dòng vượt trần và có độ phủ pilot lớn hơn 0. Nếu tỷ lệ chuyển người vượt mục tiêu 20%, ghi rõ tải giờ cao điểm và phương án trực.",
+    "Thu hẹp": "Nếu kết quả lệch ngưỡng tập trung ở một phạm vi khoanh được, chỉ đề xuất pilot ở phạm vi còn lại khi đã đo lại và xác nhận đạt ngưỡng bắt buộc, ngưỡng kinh doanh và các trần trong phạm vi đó. Ghi rõ phần cắt, độ phủ còn lại, người trực và tuyến xử lý tay.",
+    "Cải tiến thêm": "Nếu chưa có phạm vi đạt nhưng có nguyên nhân và giả thuyết sửa kiểm chứng được, giữ pilot ở trạng thái chờ. Giao người phụ trách, sửa một nguyên nhân và đo lại trong tối đa 2 ngày làm việc.",
+    "Dừng": "Nếu không thể giới hạn tác hại bằng một phạm vi có ích, hoặc sau một vòng cải tiến có hạn vẫn không có phạm vi đạt an toàn và vận hành, dừng pilot và ghi lại nguyên nhân cùng bài học."
   }
 }
